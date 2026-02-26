@@ -287,7 +287,6 @@ function PedidoModal({ open, onClose, onSave, initial }) {
   useEffect(() => setForm(initial || EMPTY_FORM), [initial, open]);
   if (!open) return null;
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
-  const F = (props) => <FormField {...props} form={form} set={set} />;
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 16 }}>
@@ -308,34 +307,34 @@ function PedidoModal({ open, onClose, onSave, initial }) {
             </select>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: 14 }}>
-            <F label="Nº Pedido" fieldKey="pedido" type="number" />
-            <F label="Proposta" fieldKey="proposta" />
-            <F label="RL" fieldKey="rl" options={["Ok", "Pendente", "Não"]} />
-            <F label="Será Enviado" fieldKey="seraEnviado" options={["Sim", "Não"]} />
-            <F label="Financeiro" fieldKey="financeiro" />
-            <F label="Comprador" fieldKey="comprador" />
-            <F label="Contato Comprador" fieldKey="contatoComprador" />
-            <F label="Vendedor" fieldKey="vendedor" />
-            <F label="Contato Vendedor" fieldKey="contatoVendedor" />
-            <F label="Fazenda Muda" fieldKey="fazendaMuda" />
-            <F label="Cód. Muda" fieldKey="codMuda" />
-            <F label="T. Muda" fieldKey="tMuda" />
-            <F label="Variedade" fieldKey="variedade" />
-            <F label="Data Corte" fieldKey="dataCorte" />
-            <F label="Área Muda Prevista (ha)" fieldKey="areaMudaPrevista" type="number" />
-            <F label="Área Muda Realizada (ha)" fieldKey="areaMudaRealizada" type="number" />
-            <F label="Peso Base" fieldKey="pesoBase" />
-            <F label="Área Base" fieldKey="areaBase" />
-            <F label="TCH" fieldKey="tch" type="number" />
-            <F label="FA Plantio" fieldKey="faPlantio" />
-            <F label="Talhão Plantio" fieldKey="talhaoPlantio" />
-            <F label="Área Plantio (ha)" fieldKey="areaPlantio" type="number" />
-            <F label="Avaliação Muda" fieldKey="avaliacaoMuda" />
-            <F label="OS Corte Muda" fieldKey="osCorte" />
-            <F label="Mapa Área Muda" fieldKey="mapaArea" options={["Sim", "Não", "Pendente"]} />
-            <F label="Apontamento" fieldKey="apontamento" />
-            <F label="Entrega Carta Gestão PAG" fieldKey="entregaCarta" />
-            <F label="OBS" fieldKey="obs" type="textarea" full />
+            <FormField label="Nº Pedido" fieldKey="pedido" type="number"  form={form} set={set} />
+            <FormField label="Proposta" fieldKey="proposta"  form={form} set={set} />
+            <FormField label="RL" fieldKey="rl" options={["Ok", "Pendente", "Não"]}  form={form} set={set} />
+            <FormField label="Será Enviado" fieldKey="seraEnviado" options={["Sim", "Não"]}  form={form} set={set} />
+            <FormField label="Financeiro" fieldKey="financeiro"  form={form} set={set} />
+            <FormField label="Comprador" fieldKey="comprador"  form={form} set={set} />
+            <FormField label="Contato Comprador" fieldKey="contatoComprador"  form={form} set={set} />
+            <FormField label="Vendedor" fieldKey="vendedor"  form={form} set={set} />
+            <FormField label="Contato Vendedor" fieldKey="contatoVendedor"  form={form} set={set} />
+            <FormField label="Fazenda Muda" fieldKey="fazendaMuda"  form={form} set={set} />
+            <FormField label="Cód. Muda" fieldKey="codMuda"  form={form} set={set} />
+            <FormField label="T. Muda" fieldKey="tMuda"  form={form} set={set} />
+            <FormField label="Variedade" fieldKey="variedade"  form={form} set={set} />
+            <FormField label="Data Corte" fieldKey="dataCorte"  form={form} set={set} />
+            <FormField label="Área Muda Prevista (ha)" fieldKey="areaMudaPrevista" type="number"  form={form} set={set} />
+            <FormField label="Área Muda Realizada (ha)" fieldKey="areaMudaRealizada" type="number"  form={form} set={set} />
+            <FormField label="Peso Base" fieldKey="pesoBase"  form={form} set={set} />
+            <FormField label="Área Base" fieldKey="areaBase"  form={form} set={set} />
+            <FormField label="TCH" fieldKey="tch" type="number"  form={form} set={set} />
+            <FormField label="FA Plantio" fieldKey="faPlantio"  form={form} set={set} />
+            <FormField label="Talhão Plantio" fieldKey="talhaoPlantio"  form={form} set={set} />
+            <FormField label="Área Plantio (ha)" fieldKey="areaPlantio" type="number"  form={form} set={set} />
+            <FormField label="Avaliação Muda" fieldKey="avaliacaoMuda"  form={form} set={set} />
+            <FormField label="OS Corte Muda" fieldKey="osCorte"  form={form} set={set} />
+            <FormField label="Mapa Área Muda" fieldKey="mapaArea" options={["Sim", "Não", "Pendente"]}  form={form} set={set} />
+            <FormField label="Apontamento" fieldKey="apontamento"  form={form} set={set} />
+            <FormField label="Entrega Carta Gestão PAG" fieldKey="entregaCarta"  form={form} set={set} />
+            <FormField label="OBS" fieldKey="obs" type="textarea" full  form={form} set={set} />
           </div>
         </div>
         <div style={{ padding: "16px 32px 24px", display: "flex", gap: 12, justifyContent: "flex-end", borderTop: "1px solid #e5e7eb" }}>
@@ -355,26 +354,32 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
   useEffect(() => { if (open) { setToEmail(""); setCcEmail(""); setSendCC(false); } }, [open]);
   if (!open) return null;
 
-  // Step 2: show the clickable mailto link
+  // Step 2: file downloaded, now show mailto link with attach instructions
   if (emailSent && mailtoLink) {
     return (
       <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1300, padding: 16 }}>
-        <div style={{ background: "#fff", borderRadius: 16, width: "100%", maxWidth: 460, boxShadow: "0 24px 60px rgba(0,0,0,0.25)", overflow: "hidden" }}>
+        <div style={{ background: "#fff", borderRadius: 16, width: "100%", maxWidth: 480, boxShadow: "0 24px 60px rgba(0,0,0,0.25)", overflow: "hidden" }}>
           <div style={{ background: "linear-gradient(135deg,#16a34a,#15803d)", padding: "20px 24px" }}>
-            <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "#fff", fontFamily: "Georgia,serif" }}>✅ Contrato enviado para validação!</h3>
+            <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "#fff", fontFamily: "Georgia,serif" }}>✅ Arquivo baixado!</h3>
+            <p style={{ margin: "4px 0 0", fontSize: 13, color: "rgba(255,255,255,0.8)" }}>Contrato — Pedido #{record?.pedido} · {record?.comprador}</p>
           </div>
-          <div style={{ padding: "24px 24px", display: "flex", flexDirection: "column", gap: 16, textAlign: "center" }}>
-            <p style={{ margin: 0, fontSize: 14, color: "#374151", lineHeight: 1.6 }}>
-              Clique no botão abaixo para abrir seu cliente de e-mail com o contrato já preenchido.
-            </p>
+          <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 10, padding: "12px 16px" }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#166534", marginBottom: 8 }}>📋 Passos para enviar:</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {["1. O arquivo do contrato já foi baixado para o seu computador.", "2. Clique em "Abrir no E-mail" abaixo — seu cliente de e-mail abrirá com destinatário e assunto prontos.", "3. Anexe o arquivo baixado ao e-mail.", "4. Clique em Enviar."].map((step, i) => (
+                  <div key={i} style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>{step}</div>
+                ))}
+              </div>
+            </div>
             <a
               href={mailtoLink}
-              style={{ display: "inline-block", background: "linear-gradient(135deg,#7c3aed,#6d28d9)", color: "#fff", borderRadius: 12, padding: "14px 28px", fontWeight: 800, fontSize: 15, textDecoration: "none", fontFamily: "inherit", boxShadow: "0 4px 16px rgba(124,58,237,0.35)" }}
+              style={{ display: "block", textAlign: "center", background: "linear-gradient(135deg,#7c3aed,#6d28d9)", color: "#fff", borderRadius: 12, padding: "14px 28px", fontWeight: 800, fontSize: 15, textDecoration: "none", fontFamily: "inherit", boxShadow: "0 4px 16px rgba(124,58,237,0.3)" }}
             >
               ✉️ Abrir no E-mail
             </a>
-            <p style={{ margin: 0, fontSize: 12, color: "#9ca3af" }}>
-              Se o e-mail não abrir, copie o link manualmente do seu navegador.
+            <p style={{ margin: 0, fontSize: 11, color: "#9ca3af", textAlign: "center" }}>
+              Não se esqueça de anexar o arquivo antes de enviar!
             </p>
           </div>
           <div style={{ padding: "0 24px 20px", display: "flex", justifyContent: "center" }}>
@@ -397,7 +402,7 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
         </div>
         <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ background: "#faf5ff", border: "1px solid #e9d5ff", borderRadius: 10, padding: "10px 14px", fontSize: 12, color: "#6d28d9", lineHeight: 1.5 }}>
-            ℹ️ Preencha o destinatário e clique em "Preparar E-mail". Um link será gerado para abrir no seu cliente de e-mail.
+            ℹ️ O contrato será baixado como arquivo. Depois, seu e-mail abrirá pronto para você anexá-lo e enviar.
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
             <label style={{ fontSize: 11, fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: 0.8 }}>Para (destinatário) <span style={{ color: "#dc2626" }}>*</span></label>
@@ -419,14 +424,18 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
           </div>
         </div>
         <div style={{ padding: "0 24px 20px", display: "flex", gap: 10, justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => onConfirm(null, null)} style={{ background: "none", border: "none", color: "#9ca3af", fontSize: 13, cursor: "pointer", fontFamily: "inherit", textDecoration: "underline" }}>
+          <button onClick={() => onConfirm(null, null, null)} style={{ background: "none", border: "none", color: "#9ca3af", fontSize: 13, cursor: "pointer", fontFamily: "inherit", textDecoration: "underline" }}>
             Pular, não enviar e-mail
           </button>
           <div style={{ display: "flex", gap: 10 }}>
             <button onClick={onClose} style={btnSecondary}>Cancelar</button>
-            <button onClick={() => onConfirm(toEmail, sendCC ? ccEmail : "")} disabled={!toEmail.trim()}
+            <button onClick={() => onConfirm(toEmail, sendCC ? ccEmail : "", "doc")} disabled={!toEmail.trim()}
+              style={{ ...btnSecondary, background: "#eff6ff", color: "#2563eb", opacity: toEmail.trim() ? 1 : 0.45, cursor: toEmail.trim() ? "pointer" : "not-allowed" }}>
+              📎 Baixar Word + E-mail
+            </button>
+            <button onClick={() => onConfirm(toEmail, sendCC ? ccEmail : "", "pdf")} disabled={!toEmail.trim()}
               style={{ ...btnPurple, opacity: toEmail.trim() ? 1 : 0.45, cursor: toEmail.trim() ? "pointer" : "not-allowed" }}>
-              📧 Preparar E-mail
+              📎 Baixar TXT + E-mail
             </button>
           </div>
         </div>
@@ -468,12 +477,39 @@ function ContractModal({ open, onClose, record, contracts, onSaveContract, onSen
     setEmailOpen(true);
   };
 
-  const handleEmailConfirm = (toEmail, ccEmail) => {
+  const handleEmailConfirm = (toEmail, ccEmail, format) => {
     if (toEmail) {
+      // Generate and download the contract file
+      const filename = `Contrato_Pedido_${record.pedido}_${(record.comprador||"").replace(/\s+/g,"_")}`;
+      if (format === "pdf") {
+        // Plain text as .txt (PDF real requer lib externa)
+        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url; a.download = filename + ".txt"; a.click();
+        URL.revokeObjectURL(url);
+      } else {
+        // Word-compatible HTML wrapped as .doc
+        const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Contrato</title></head><body><pre style="font-family:Courier New;font-size:11pt;line-height:1.8;">${content.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</pre></body></html>`;
+        const blob = new Blob([html], { type: "application/msword" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url; a.download = filename + ".doc"; a.click();
+        URL.revokeObjectURL(url);
+      }
+      // mailto without body - user attaches the downloaded file
       const subject = encodeURIComponent(`Contrato de Muda — Pedido #${record.pedido} · ${record.comprador}`);
-      const body = encodeURIComponent(content);
+      const bodyText = encodeURIComponent(`Olá,
+
+Segue em anexo o contrato de compra e venda de muda referente ao Pedido #${record.pedido}.
+
+Fazenda: ${record.fazendaMuda || ""}
+Comprador: ${record.comprador || ""}
+Vendedor: ${record.vendedor || ""}
+
+Atenciosamente.`);
       const cc = ccEmail ? `&cc=${encodeURIComponent(ccEmail)}` : "";
-      setMailtoLink(`mailto:${encodeURIComponent(toEmail)}?subject=${subject}${cc}&body=${body}`);
+      setMailtoLink(`mailto:${encodeURIComponent(toEmail)}?subject=${subject}${cc}&body=${bodyText}`);
       setEmailSent(true);
     } else {
       setEmailOpen(false);
