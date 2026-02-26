@@ -367,9 +367,10 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
             <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 10, padding: "12px 16px" }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: "#166534", marginBottom: 8 }}>📋 Passos para enviar:</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {["1. O arquivo do contrato já foi baixado para o seu computador.", "2. Clique em "Abrir no E-mail" abaixo — seu cliente de e-mail abrirá com destinatário e assunto prontos.", "3. Anexe o arquivo baixado ao e-mail.", "4. Clique em Enviar."].map((step, i) => (
-                  <div key={i} style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>{step}</div>
-                ))}
+                <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>1. O arquivo do contrato já foi baixado para o seu computador.</div>
+                <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>2. Clique em &ldquo;Abrir no E-mail&rdquo; abaixo &mdash; seu cliente de e-mail abrirá com destinatário e assunto prontos.</div>
+                <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>3. Anexe o arquivo baixado ao e-mail.</div>
+                <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>4. Clique em Enviar.</div>
               </div>
             </div>
             <a
@@ -571,19 +572,10 @@ function KpiCard({ label, value, sub, color = "#16a34a" }) {
 }
 
 export default function App() {
-  const [loggedUser, setLoggedUser] = useState(() => {
-    try { return sessionStorage.getItem("cana_user") || null; } catch { return null; }
-  });
+  const [loggedUser, setLoggedUser] = useState(null);
 
-  const handleLogin = (user) => {
-    try { sessionStorage.setItem("cana_user", user); } catch {}
-    setLoggedUser(user);
-  };
-
-  const handleLogout = () => {
-    try { sessionStorage.removeItem("cana_user"); } catch {}
-    setLoggedUser(null);
-  };
+  const handleLogin = (user) => setLoggedUser(user);
+  const handleLogout = () => setLoggedUser(null);
 
   if (!loggedUser) return <LoginScreen onLogin={handleLogin} />;
 
