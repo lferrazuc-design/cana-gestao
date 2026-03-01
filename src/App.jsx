@@ -232,11 +232,11 @@ ___________________________________    ___________________________________
 `;
 
 const INITIAL_DATA = [
-  { id: 1, pedido: 1, proposta: "09/02/2026", rl: "Ok", seraEnviado: "Sim", financeiro: "UC", comprador: "Amauri", contatoComprador: "GQQ", vendedor: "Zé Fernando", contatoVendedor: "Talisma", fazendaMuda: "14039", codMuda: "", tMuda: "IACSP01 5503", variedade: "", dataCorte: "14-17/02/2026", areaMudaPrevista: 1.65, areaMudaRealizada: 1.60, pesoBase: "", areaBase: "", tch: 63.33, faPlantio: 12067, talhaoPlantio: "", areaPlantio: 11.35, avaliacaoMuda: "", osCorte: "123815", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "Negociando muda" },
-  { id: 2, pedido: 2, proposta: "09/02/2026", rl: "Ok", seraEnviado: "Sim", financeiro: "UC", comprador: "Amauri", contatoComprador: "GQQ", vendedor: "Zé Fernando", contatoVendedor: "Talisma", fazendaMuda: "14039", codMuda: "", tMuda: "IACSP01 5503", variedade: "", dataCorte: "14-17/02/2027", areaMudaPrevista: 4.40, areaMudaRealizada: 2.60, pesoBase: "", areaBase: "", tch: 63.33, faPlantio: 12067, talhaoPlantio: "", areaPlantio: 10.93, avaliacaoMuda: "", osCorte: "123815", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "O.S aberta para retirada" },
+  { id: 1, pedido: "09/02/2026", proposta: "09/02/2026", financeiro: "UC", comprador: "Amauri", contatoComprador: "GQQ", vendedor: "Zé Fernando", contatoVendedor: "Talisma", fazendaMuda: "14039", codMuda: "", tMuda: "IACSP01 5503", variedade: "", dataCorte: "14-17/02/2026", areaMudaPrevista: 1.65, areaMudaRealizada: 1.60, pesoBase: "", areaBase: "", tch: 63.33, faPlantio: 12067, talhaoPlantio: "", areaPlantio: 11.35, avaliacaoMuda: "", osCorte: "123815", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "Negociando muda" },
+  { id: 2, pedido: "09/02/2026", proposta: "09/02/2026", financeiro: "UC", comprador: "Amauri", contatoComprador: "GQQ", vendedor: "Zé Fernando", contatoVendedor: "Talisma", fazendaMuda: "14039", codMuda: "", tMuda: "IACSP01 5503", variedade: "", dataCorte: "14-17/02/2027", areaMudaPrevista: 4.40, areaMudaRealizada: 2.60, pesoBase: "", areaBase: "", tch: 63.33, faPlantio: 12067, talhaoPlantio: "", areaPlantio: 10.93, avaliacaoMuda: "", osCorte: "123815", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "O.S aberta para retirada" },
 ];
 
-const EMPTY_FORM = { pedido: "", proposta: "", rl: "", seraEnviado: "", financeiro: "", comprador: "", contatoComprador: "", vendedor: "", contatoVendedor: "", fazendaMuda: "", codMuda: "", tMuda: "", variedade: "", dataCorte: "", areaMudaPrevista: "", areaMudaRealizada: "", pesoBase: "", areaBase: "", tch: "", faPlantio: "", talhaoPlantio: "", areaPlantio: "", avaliacaoMuda: "", osCorte: "", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "" };
+const EMPTY_FORM = { pedido: "", proposta: "", financeiro: "", comprador: "", contatoComprador: "", vendedor: "", contatoVendedor: "", fazendaMuda: "", codMuda: "", tMuda: "", variedade: "", dataCorte: "", areaMudaPrevista: "", areaMudaRealizada: "", pesoBase: "", areaBase: "", tch: "", faPlantio: "", talhaoPlantio: "", areaPlantio: "", avaliacaoMuda: "", osCorte: "", fichaAutorizacao: "", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "" };
 
 const RL_COLORS = { Ok: { bg: "#d1fae5", text: "#065f46" }, Pendente: { bg: "#fef3c7", text: "#92400e" }, "Não": { bg: "#fee2e2", text: "#991b1b" }, Sim: { bg: "#d1fae5", text: "#065f46" } };
 const CONTRACT_STATUS_LABELS = { rascunho: { label: "📝 Rascunho", bg: "#f3f4f6", text: "#374151" }, validacao: { label: "⏳ Em Validação", bg: "#ede9fe", text: "#6d28d9" }, assinatura: { label: "✍️ Em Assinatura", bg: "#dbeafe", text: "#1e3a8a" }, aprovado: { label: "✅ Aprovado", bg: "#d1fae5", text: "#065f46" } };
@@ -263,6 +263,25 @@ const StatusDot = ({ value }) => {
     </span>
   );
 };
+
+const FICHA_COLORS = {
+  "Pendente":  { bg: "#fef3c7", text: "#92400e", dot: "#f59e0b" },
+  "Emitida":   { bg: "#dbeafe", text: "#1e3a8a", dot: "#3b82f6" },
+  "Aprovada":  { bg: "#d1fae5", text: "#065f46", dot: "#10b981" },
+  "Recusada":  { bg: "#fee2e2", text: "#991b1b", dot: "#ef4444" },
+};
+
+const FichaStatusPill = ({ value }) => {
+  const s = FICHA_COLORS[value];
+  if (!value) return <span style={{ color: "#9ca3af", fontSize: 12 }}>—</span>;
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, background: s.bg, color: s.text, padding: "2px 9px", borderRadius: 20, fontSize: 11, fontWeight: 700, whiteSpace: "nowrap" }}>
+      <span style={{ width: 5, height: 5, borderRadius: "50%", background: s.dot, display: "inline-block", flexShrink: 0 }} />
+      {value}
+    </span>
+  );
+};
+
 
 function FormField({ label, fieldKey, type = "text", options, full, form, set }) {
   return (
@@ -307,10 +326,8 @@ function PedidoModal({ open, onClose, onSave, initial }) {
             </select>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: 14 }}>
-            <FormField label="Nº Pedido" fieldKey="pedido" type="number"  form={form} set={set} />
+            <FormField label="Data do Pedido" fieldKey="pedido" type="date"  form={form} set={set} />
             <FormField label="Proposta" fieldKey="proposta"  form={form} set={set} />
-            <FormField label="RL" fieldKey="rl" options={["Ok", "Pendente", "Não"]}  form={form} set={set} />
-            <FormField label="Será Enviado" fieldKey="seraEnviado" options={["Sim", "Não"]}  form={form} set={set} />
             <FormField label="Financeiro" fieldKey="financeiro"  form={form} set={set} />
             <FormField label="Comprador" fieldKey="comprador"  form={form} set={set} />
             <FormField label="Contato Comprador" fieldKey="contatoComprador"  form={form} set={set} />
@@ -331,6 +348,7 @@ function PedidoModal({ open, onClose, onSave, initial }) {
             <FormField label="Área Plantio (ha)" fieldKey="areaPlantio" type="number"  form={form} set={set} />
             <FormField label="Avaliação Muda" fieldKey="avaliacaoMuda"  form={form} set={set} />
             <FormField label="OS Corte Muda" fieldKey="osCorte"  form={form} set={set} />
+            <FormField label="Ficha de Autorização de Muda" fieldKey="fichaAutorizacao" options={["Pendente", "Emitida", "Aprovada", "Recusada"]}  form={form} set={set} />
             <FormField label="Mapa Área Muda" fieldKey="mapaArea" options={["Sim", "Não", "Pendente"]}  form={form} set={set} />
             <FormField label="Apontamento" fieldKey="apontamento"  form={form} set={set} />
             <FormField label="Entrega Carta Gestão PAG" fieldKey="entregaCarta"  form={form} set={set} />
@@ -572,10 +590,18 @@ function KpiCard({ label, value, sub, color = "#16a34a" }) {
 }
 
 export default function App() {
-  const [loggedUser, setLoggedUser] = useState(null);
+  const [loggedUser, setLoggedUser] = useState(() => {
+    try { return localStorage.getItem("cana_logged_user") || null; } catch { return null; }
+  });
 
-  const handleLogin = (user) => setLoggedUser(user);
-  const handleLogout = () => setLoggedUser(null);
+  const handleLogin = (user) => {
+    try { localStorage.setItem("cana_logged_user", user); } catch {}
+    setLoggedUser(user);
+  };
+  const handleLogout = () => {
+    try { localStorage.removeItem("cana_logged_user"); } catch {}
+    setLoggedUser(null);
+  };
 
   if (!loggedUser) return <LoginScreen onLogin={handleLogin} />;
 
@@ -659,8 +685,8 @@ function AppContent({ user, onLogout }) {
   });
 
   const exportCSV = () => {
-    const headers = ["Pedido","Proposta","Status","RL","Enviado","Financeiro","Comprador","Contato Comprador","Vendedor","Contato Vendedor","Fazenda","T Muda","Data Corte","Á.Prevista","Á.Realizada","TCH","Á.Plantio","OS Corte","OBS"];
-    const keys = ["pedido","proposta","statusPedido","rl","seraEnviado","financeiro","comprador","contatoComprador","vendedor","contatoVendedor","fazendaMuda","tMuda","dataCorte","areaMudaPrevista","areaMudaRealizada","tch","areaPlantio","osCorte","obs"];
+    const headers = ["Data Pedido","Proposta","Status","Financeiro","Comprador","Contato Comprador","Vendedor","Contato Vendedor","Fazenda","T Muda","Data Corte","Á.Prevista","Á.Realizada","TCH","Á.Plantio","OS Corte","Ficha Autorização","OBS"];
+    const keys = ["pedido","proposta","statusPedido","financeiro","comprador","contatoComprador","vendedor","contatoVendedor","fazendaMuda","tMuda","dataCorte","areaMudaPrevista","areaMudaRealizada","tch","areaPlantio","osCorte","fichaAutorizacao","obs"];
     const rows = [headers, ...records.map(r => keys.map(k => r[k] ?? ""))];
     const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff" + rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n")], { type: "text/csv;charset=utf-8" })); a.download = "gestao_muda_cana.csv"; a.click();
   };
@@ -779,16 +805,7 @@ function AppContent({ user, onLogout }) {
               </select>
               <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
                 <button onClick={exportCSV} style={btnSecondary}>⬇ CSV</button>
-                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.1)", borderRadius: 10, padding: "7px 12px" }}>
-              <div style={{ width: 28, height: 28, background: "rgba(255,255,255,0.2)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>👤</div>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>{user}</span>
-            </div>
-            <button onClick={() => { setEditing(null); setModalOpen(true); }} style={btnPrimary}>+ Novo Pedido</button>
-            <button onClick={onLogout} style={{ background: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.8)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 10, padding: "10px 16px", fontWeight: 600, fontSize: 13, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" }}>
-              Sair →
-            </button>
-          </div>
+
               </div>
             </div>
             <div style={{ background: "#fff", borderRadius: 14, boxShadow: "0 2px 12px rgba(0,0,0,0.06)", overflow: "hidden" }}>
@@ -796,13 +813,13 @@ function AppContent({ user, onLogout }) {
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
                   <thead>
                     <tr style={{ background: "#f9fafb", borderBottom: "2px solid #e5e7eb" }}>
-                      {["Ped.","Status","RL","Comprador","Vendedor","Fazenda","T.Muda","Data Corte","Á.Prev","Á.Real","Á.Plant","OS","Contrato","Ações"].map(h => (
+                      {["Ped.","Status","Comprador","Vendedor","Fazenda","T.Muda","Data Corte","Á.Prev","Á.Real","Á.Plant","OS","Ficha Aut.","Contrato","Ações"].map(h => (
                         <th key={h} style={{ padding: "10px 11px", textAlign: "left", fontWeight: 700, color: "#6b7280", fontSize: 11, textTransform: "uppercase", letterSpacing: 0.5, whiteSpace: "nowrap" }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {filtered.length === 0 && <tr><td colSpan={14} style={{ padding: 32, textAlign: "center", color: "#9ca3af" }}>Nenhum registro encontrado.</td></tr>}
+                    {filtered.length === 0 && <tr><td colSpan={15} style={{ padding: 32, textAlign: "center", color: "#9ca3af" }}>Nenhum registro encontrado.</td></tr>}
                     {filtered.map((r, i) => {
                       const ct = contracts[r.id];
                       const ctS = ct ? CONTRACT_STATUS_LABELS[ct.status] : null;
@@ -810,7 +827,6 @@ function AppContent({ user, onLogout }) {
                         <tr key={r.id} style={{ borderBottom: "1px solid #f3f4f6", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
                           <td style={{ padding: "10px 11px", fontWeight: 800, color: "#16a34a" }}>#{r.pedido}</td>
                           <td style={{ padding: "10px 11px" }}><StatusDot value={r.statusPedido} /></td>
-                          <td style={{ padding: "10px 11px" }}><Pill value={r.rl} colors={RL_COLORS} /></td>
                           <td style={{ padding: "10px 11px", fontWeight: 600 }}>{r.comprador || "—"}</td>
                           <td style={{ padding: "10px 11px" }}>{r.vendedor || "—"}</td>
                           <td style={{ padding: "10px 11px" }}>{r.fazendaMuda || "—"}</td>
@@ -820,6 +836,7 @@ function AppContent({ user, onLogout }) {
                           <td style={{ padding: "10px 11px", textAlign: "right", fontWeight: 600 }}>{r.areaMudaRealizada || "—"}</td>
                           <td style={{ padding: "10px 11px", textAlign: "right" }}>{r.areaPlantio || "—"}</td>
                           <td style={{ padding: "10px 11px" }}>{r.osCorte || "—"}</td>
+                          <td style={{ padding: "10px 11px" }}><FichaStatusPill value={r.fichaAutorizacao} /></td>
                           <td style={{ padding: "10px 11px" }}>
                             {ctS ? <span style={{ background: ctS.bg, color: ctS.text, padding: "2px 9px", borderRadius: 20, fontSize: 11, fontWeight: 700, whiteSpace: "nowrap" }}>{ctS.label}</span>
                               : <span style={{ color: "#d1d5db", fontSize: 11 }}>—</span>}
