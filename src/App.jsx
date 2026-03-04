@@ -1,4 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+// ── SUPABASE ── cole aqui suas credenciais
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ── CREDENCIAIS ── altere aqui usuário e senha
 const USERS = [
@@ -30,7 +36,6 @@ function LoginScreen({ onLogin }) {
       minHeight: "100vh", background: "linear-gradient(160deg,#14532d 0%,#166534 50%,#15803d 100%)",
       display: "flex", alignItems: "center", justifyContent: "center", padding: 16, fontFamily: "'Trebuchet MS','Gill Sans',sans-serif",
     }}>
-      {/* Background pattern */}
       <div style={{ position: "fixed", inset: 0, opacity: 0.04, backgroundImage: "repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%)", backgroundSize: "20px 20px", pointerEvents: "none" }} />
 
       <div style={{
@@ -52,14 +57,12 @@ function LoginScreen({ onLogin }) {
           }
         `}</style>
 
-        {/* Header verde */}
         <div style={{ background: "linear-gradient(135deg,#14532d,#16a34a)", padding: "32px 32px 28px", textAlign: "center" }}>
           <div style={{ width: 64, height: 64, background: "rgba(255,255,255,0.15)", borderRadius: 18, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 30, margin: "0 auto 14px" }}>🌿</div>
           <h1 style={{ margin: 0, fontSize: 22, fontWeight: 900, color: "#fff", fontFamily: "Georgia,serif" }}>Gestão Muda de Cana</h1>
           <p style={{ margin: "6px 0 0", fontSize: 13, color: "rgba(255,255,255,0.7)" }}>Acesso restrito — faça login para continuar</p>
         </div>
 
-        {/* Formulário */}
         <div style={{ padding: "28px 32px 32px", animation: "fadeIn 0.3s ease" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -231,11 +234,6 @@ ___________________________________    ___________________________________
          TESTEMUNHA 1                           TESTEMUNHA 2
 `;
 
-const INITIAL_DATA = [
-  { id: 1, pedido: "09/02/2026", proposta: "09/02/2026", financeiro: "UC", comprador: "Amauri", contatoComprador: "GQQ", vendedor: "Zé Fernando", contatoVendedor: "Talisma", fazendaMuda: "14039", codMuda: "", tMuda: "IACSP01 5503", variedade: "", dataCorte: "14-17/02/2026", areaMudaPrevista: 1.65, areaMudaRealizada: 1.60, pesoBase: "", areaBase: "", tch: 63.33, faPlantio: 12067, talhaoPlantio: "", areaPlantio: 11.35, avaliacaoMuda: "", osCorte: "123815", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "Negociando muda" },
-  { id: 2, pedido: "09/02/2026", proposta: "09/02/2026", financeiro: "UC", comprador: "Amauri", contatoComprador: "GQQ", vendedor: "Zé Fernando", contatoVendedor: "Talisma", fazendaMuda: "14039", codMuda: "", tMuda: "IACSP01 5503", variedade: "", dataCorte: "14-17/02/2027", areaMudaPrevista: 4.40, areaMudaRealizada: 2.60, pesoBase: "", areaBase: "", tch: 63.33, faPlantio: 12067, talhaoPlantio: "", areaPlantio: 10.93, avaliacaoMuda: "", osCorte: "123815", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "O.S aberta para retirada" },
-];
-
 const EMPTY_FORM = { pedido: "", proposta: "", financeiro: "", comprador: "", contatoComprador: "", vendedor: "", contatoVendedor: "", fazendaMuda: "", codMuda: "", tMuda: "", variedade: "", dataCorte: "", areaMudaPrevista: "", areaMudaRealizada: "", pesoBase: "", areaBase: "", tch: "", faPlantio: "", talhaoPlantio: "", areaPlantio: "", avaliacaoMuda: "", osCorte: "", fichaAutorizacao: "", mapaArea: "", apontamento: "", entregaCarta: "", obs: "", statusPedido: "" };
 
 const RL_COLORS = { Ok: { bg: "#d1fae5", text: "#065f46" }, Pendente: { bg: "#fef3c7", text: "#92400e" }, "Não": { bg: "#fee2e2", text: "#991b1b" }, Sim: { bg: "#d1fae5", text: "#065f46" } };
@@ -372,7 +370,6 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
   useEffect(() => { if (open) { setToEmail(""); setCcEmail(""); setSendCC(false); } }, [open]);
   if (!open) return null;
 
-  // Step 2: file downloaded, now show mailto link with attach instructions
   if (emailSent && mailtoLink) {
     return (
       <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1300, padding: 16 }}>
@@ -386,7 +383,7 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
               <div style={{ fontSize: 13, fontWeight: 700, color: "#166534", marginBottom: 8 }}>📋 Passos para enviar:</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>1. O arquivo do contrato já foi baixado para o seu computador.</div>
-                <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>2. Clique em &ldquo;Abrir no E-mail&rdquo; abaixo &mdash; seu cliente de e-mail abrirá com destinatário e assunto prontos.</div>
+                <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>2. Clique em &ldquo;Abrir no E-mail&rdquo; abaixo — seu cliente de e-mail abrirá com destinatário e assunto prontos.</div>
                 <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>3. Anexe o arquivo baixado ao e-mail.</div>
                 <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.5 }}>4. Clique em Enviar.</div>
               </div>
@@ -397,9 +394,6 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
             >
               ✉️ Abrir no E-mail
             </a>
-            <p style={{ margin: 0, fontSize: 11, color: "#9ca3af", textAlign: "center" }}>
-              Não se esqueça de anexar o arquivo antes de enviar!
-            </p>
           </div>
           <div style={{ padding: "0 24px 20px", display: "flex", justifyContent: "center" }}>
             <button onClick={onClose} style={btnSecondary}>Fechar</button>
@@ -409,7 +403,6 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
     );
   }
 
-  // Step 1: fill in email address
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1300, padding: 16 }}>
       <div style={{ background: "#fff", borderRadius: 16, width: "100%", maxWidth: 460, boxShadow: "0 24px 60px rgba(0,0,0,0.25)", overflow: "hidden" }}>
@@ -426,7 +419,6 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
           <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
             <label style={{ fontSize: 11, fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: 0.8 }}>Para (destinatário) <span style={{ color: "#dc2626" }}>*</span></label>
             <input type="email" placeholder="email@destinatario.com.br" value={toEmail} onChange={e => setToEmail(e.target.value)} style={{ ...inputStyle, fontSize: 14 }} />
-            <span style={{ fontSize: 11, color: "#9ca3af" }}>Múltiplos destinatários: separe por vírgula</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#374151", userSelect: "none" }}>
@@ -437,10 +429,6 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
               <input type="email" placeholder="meu@email.com.br" value={ccEmail} onChange={e => setCcEmail(e.target.value)} style={{ ...inputStyle, fontSize: 14 }} />
             )}
           </div>
-          <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 10, padding: "10px 14px" }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", marginBottom: 3 }}>Assunto</div>
-            <div style={{ fontSize: 13, color: "#374151" }}>Contrato de Muda — Pedido #{record?.pedido} · {record?.comprador}</div>
-          </div>
         </div>
         <div style={{ padding: "0 24px 20px", display: "flex", gap: 10, justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => onConfirm(null, null, null)} style={{ background: "none", border: "none", color: "#9ca3af", fontSize: 13, cursor: "pointer", fontFamily: "inherit", textDecoration: "underline" }}>
@@ -448,10 +436,6 @@ function EmailDialog({ open, onClose, onConfirm, record, mailtoLink, emailSent }
           </button>
           <div style={{ display: "flex", gap: 10 }}>
             <button onClick={onClose} style={btnSecondary}>Cancelar</button>
-            <button onClick={() => onConfirm(toEmail, sendCC ? ccEmail : "", "doc")} disabled={!toEmail.trim()}
-              style={{ ...btnSecondary, background: "#eff6ff", color: "#2563eb", opacity: toEmail.trim() ? 1 : 0.45, cursor: toEmail.trim() ? "pointer" : "not-allowed" }}>
-              📎 Baixar Word + E-mail
-            </button>
             <button onClick={() => onConfirm(toEmail, sendCC ? ccEmail : "", "pdf")} disabled={!toEmail.trim()}
               style={{ ...btnPurple, opacity: toEmail.trim() ? 1 : 0.45, cursor: toEmail.trim() ? "pointer" : "not-allowed" }}>
               📎 Baixar TXT + E-mail
@@ -498,35 +482,14 @@ function ContractModal({ open, onClose, record, contracts, onSaveContract, onSen
 
   const handleEmailConfirm = (toEmail, ccEmail, format) => {
     if (toEmail) {
-      // Generate and download the contract file
-      const filename = `Contrato_Pedido_${record.pedido}_${(record.comprador||"").replace(/\s+/g,"_")}`;
-      if (format === "pdf") {
-        // Plain text as .txt (PDF real requer lib externa)
-        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url; a.download = filename + ".txt"; a.click();
-        URL.revokeObjectURL(url);
-      } else {
-        // Word-compatible HTML wrapped as .doc
-        const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Contrato</title></head><body><pre style="font-family:Courier New;font-size:11pt;line-height:1.8;">${content.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</pre></body></html>`;
-        const blob = new Blob([html], { type: "application/msword" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url; a.download = filename + ".doc"; a.click();
-        URL.revokeObjectURL(url);
-      }
-      // mailto without body - user attaches the downloaded file
+      const filename = `Contrato_Pedido_${record.pedido}_${(record.comprador || "").replace(/\s+/g, "_")}`;
+      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = filename + ".txt"; a.click();
+      URL.revokeObjectURL(url);
       const subject = encodeURIComponent(`Contrato de Muda — Pedido #${record.pedido} · ${record.comprador}`);
-      const bodyText = encodeURIComponent(`Olá,
-
-Segue em anexo o contrato de compra e venda de muda referente ao Pedido #${record.pedido}.
-
-Fazenda: ${record.fazendaMuda || ""}
-Comprador: ${record.comprador || ""}
-Vendedor: ${record.vendedor || ""}
-
-Atenciosamente.`);
+      const bodyText = encodeURIComponent(`Olá,\n\nSegue em anexo o contrato de compra e venda de muda referente ao Pedido #${record.pedido}.\n\nFazenda: ${record.fazendaMuda || ""}\nComprador: ${record.comprador || ""}\nVendedor: ${record.vendedor || ""}\n\nAtenciosamente.`);
       const cc = ccEmail ? `&cc=${encodeURIComponent(ccEmail)}` : "";
       setMailtoLink(`mailto:${encodeURIComponent(toEmail)}?subject=${subject}${cc}&body=${bodyText}`);
       setEmailSent(true);
@@ -549,10 +512,6 @@ Atenciosamente.`);
             {ctStatus && <span style={{ background: ctStatus.bg, color: ctStatus.text, padding: "4px 13px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{ctStatus.label}</span>}
             <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 22, cursor: "pointer", color: "#9ca3af" }}>✕</button>
           </div>
-        </div>
-        <div style={{ padding: "8px 28px", background: "#fafafa", borderBottom: "1px solid #e5e7eb", display: "flex", gap: 24, fontSize: 12, color: "#6b7280" }}>
-          <span>✏️ Edite o contrato diretamente abaixo</span>
-          <span>💾 Salve o rascunho antes de enviar para validação</span>
         </div>
         <textarea
           value={content}
@@ -608,9 +567,79 @@ export default function App() {
   return <AppContent user={loggedUser} onLogout={handleLogout} />;
 }
 
+// ── Converte snake_case do banco para camelCase do front ──
+function dbToRecord(row) {
+  return {
+    id: row.id,
+    pedido: row.pedido,
+    proposta: row.proposta,
+    financeiro: row.financeiro,
+    comprador: row.comprador,
+    contatoComprador: row.contato_comprador,
+    vendedor: row.vendedor,
+    contatoVendedor: row.contato_vendedor,
+    fazendaMuda: row.fazenda_muda,
+    codMuda: row.cod_muda,
+    tMuda: row.t_muda,
+    variedade: row.variedade,
+    dataCorte: row.data_corte,
+    areaMudaPrevista: row.area_muda_prevista,
+    areaMudaRealizada: row.area_muda_realizada,
+    pesoBase: row.peso_base,
+    areaBase: row.area_base,
+    tch: row.tch,
+    faPlantio: row.fa_plantio,
+    talhaoPlantio: row.talhao_plantio,
+    areaPlantio: row.area_plantio,
+    avaliacaoMuda: row.avaliacao_muda,
+    osCorte: row.os_corte,
+    fichaAutorizacao: row.ficha_autorizacao,
+    mapaArea: row.mapa_area,
+    apontamento: row.apontamento,
+    entregaCarta: row.entrega_carta,
+    obs: row.obs,
+    statusPedido: row.status_pedido,
+  };
+}
+
+// ── Converte camelCase do front para snake_case do banco ──
+function recordToDb(form) {
+  return {
+    pedido: form.pedido || null,
+    proposta: form.proposta || null,
+    financeiro: form.financeiro || null,
+    comprador: form.comprador || null,
+    contato_comprador: form.contatoComprador || null,
+    vendedor: form.vendedor || null,
+    contato_vendedor: form.contatoVendedor || null,
+    fazenda_muda: form.fazendaMuda || null,
+    cod_muda: form.codMuda || null,
+    t_muda: form.tMuda || null,
+    variedade: form.variedade || null,
+    data_corte: form.dataCorte || null,
+    area_muda_prevista: parseFloat(form.areaMudaPrevista) || null,
+    area_muda_realizada: parseFloat(form.areaMudaRealizada) || null,
+    peso_base: form.pesoBase || null,
+    area_base: form.areaBase || null,
+    tch: parseFloat(form.tch) || null,
+    fa_plantio: form.faPlantio || null,
+    talhao_plantio: form.talhaoPlantio || null,
+    area_plantio: parseFloat(form.areaPlantio) || null,
+    avaliacao_muda: form.avaliacaoMuda || null,
+    os_corte: form.osCorte || null,
+    ficha_autorizacao: form.fichaAutorizacao || null,
+    mapa_area: form.mapaArea || null,
+    apontamento: form.apontamento || null,
+    entrega_carta: form.entregaCarta || null,
+    obs: form.obs || null,
+    status_pedido: form.statusPedido || null,
+  };
+}
+
 function AppContent({ user, onLogout }) {
-  const [records, setRecords] = useState(() => { try { const s = localStorage.getItem("cana_records_v2"); return s ? JSON.parse(s) : INITIAL_DATA; } catch { return INITIAL_DATA; } });
-  const [contracts, setContracts] = useState(() => { try { const s = localStorage.getItem("cana_contracts_v2"); return s ? JSON.parse(s) : {}; } catch { return {}; } });
+  const [records, setRecords] = useState([]);
+  const [contracts, setContracts] = useState({});
+  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("dashboard");
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -620,11 +649,45 @@ function AppContent({ user, onLogout }) {
   const [filterStatus, setFilterStatus] = useState("");
   const [filterVendedor, setFilterVendedor] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  useEffect(() => { try { localStorage.setItem("cana_records_v2", JSON.stringify(records)); } catch {} }, [records]);
-  useEffect(() => { try { localStorage.setItem("cana_contracts_v2", JSON.stringify(contracts)); } catch {} }, [contracts]);
+  // ── Carrega pedidos do Supabase ao montar ──
+  useEffect(() => {
+    async function load() {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("pedidos")
+        .select("*")
+        .order("created_at", { ascending: true });
 
-  const nextId = useMemo(() => Math.max(0, ...records.map(r => r.id)) + 1, [records]);
+      if (error) {
+        setErrorMsg("Erro ao carregar pedidos: " + error.message);
+      } else {
+        setRecords((data || []).map(dbToRecord));
+      }
+
+      // Carrega contratos
+      const { data: ctData } = await supabase
+        .from("contratos")
+        .select("*");
+
+      if (ctData) {
+        const ctMap = {};
+        ctData.forEach(c => {
+          ctMap[c.record_id] = {
+            content: c.content,
+            status: c.status,
+            updatedAt: c.updated_at,
+            createdAt: c.created_at,
+          };
+        });
+        setContracts(ctMap);
+      }
+
+      setLoading(false);
+    }
+    load();
+  }, []);
 
   const filtered = useMemo(() => records.filter(r => {
     const q = search.toLowerCase();
@@ -635,7 +698,7 @@ function AppContent({ user, onLogout }) {
   const validacaoContracts = useMemo(() =>
     Object.entries(contracts)
       .filter(([, c]) => ["validacao", "assinatura", "aprovado"].includes(c.status))
-      .map(([id, c]) => ({ ...c, recordId: Number(id), record: records.find(r => r.id === Number(id)) }))
+      .map(([id, c]) => ({ ...c, recordId: id, record: records.find(r => r.id === id) }))
       .filter(c => c.record)
       .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
     [contracts, records]);
@@ -656,24 +719,92 @@ function AppContent({ user, onLogout }) {
     return Object.entries(map).sort((a, b) => b[1].area - a[1].area);
   }, [records]);
 
-  const handleSave = form => {
-    if (editing?.id) setRecords(r => r.map(x => x.id === editing.id ? { ...form, id: editing.id } : x));
-    else setRecords(r => [...r, { ...form, id: nextId }]);
-    setModalOpen(false); setEditing(null);
+  // ── Salvar / Editar pedido ──
+  const handleSave = async (form) => {
+    const dbRow = recordToDb(form);
+
+    if (editing?.id) {
+      const { data, error } = await supabase
+        .from("pedidos")
+        .update(dbRow)
+        .eq("id", editing.id)
+        .select()
+        .single();
+
+      if (error) { setErrorMsg("Erro ao salvar: " + error.message); return; }
+      setRecords(r => r.map(x => x.id === editing.id ? dbToRecord(data) : x));
+    } else {
+      const { data, error } = await supabase
+        .from("pedidos")
+        .insert([dbRow])
+        .select()
+        .single();
+
+      if (error) { setErrorMsg("Erro ao inserir: " + error.message); return; }
+      setRecords(r => [...r, dbToRecord(data)]);
+    }
+
+    setModalOpen(false);
+    setEditing(null);
   };
 
-  const handleSaveContract = (recordId, content, status) => {
-    setContracts(prev => ({ ...prev, [recordId]: { content, status, updatedAt: new Date().toISOString(), createdAt: prev[recordId]?.createdAt || new Date().toISOString() } }));
+  // ── Salvar contrato ──
+  const handleSaveContract = async (recordId, content, status) => {
+    const existing = contracts[recordId];
+
+    if (existing) {
+      await supabase
+        .from("contratos")
+        .update({ content, status, updated_at: new Date().toISOString() })
+        .eq("record_id", recordId);
+    } else {
+      await supabase
+        .from("contratos")
+        .insert([{ record_id: recordId, content, status }]);
+    }
+
+    setContracts(prev => ({
+      ...prev,
+      [recordId]: { content, status, updatedAt: new Date().toISOString(), createdAt: prev[recordId]?.createdAt || new Date().toISOString() }
+    }));
   };
 
-  const handleSendToValidation = (recordId) => {
+  // ── Enviar para validação ──
+  const handleSendToValidation = async (recordId) => {
+    await supabase
+      .from("pedidos")
+      .update({ status_pedido: "Contrato em validação" })
+      .eq("id", recordId);
+
     setRecords(r => r.map(x => x.id === recordId ? { ...x, statusPedido: "Contrato em validação" } : x));
   };
 
-  const handleContractStatus = (recordId, newStatus) => {
+  // ── Mover status do contrato ──
+  const handleContractStatus = async (recordId, newStatus) => {
+    await supabase
+      .from("contratos")
+      .update({ status: newStatus, updated_at: new Date().toISOString() })
+      .eq("record_id", recordId);
+
     setContracts(prev => ({ ...prev, [recordId]: { ...prev[recordId], status: newStatus, updatedAt: new Date().toISOString() } }));
-    if (newStatus === "assinatura") setRecords(r => r.map(x => x.id === recordId ? { ...x, statusPedido: "Contrato em assinatura" } : x));
-    if (newStatus === "aprovado") setRecords(r => r.map(x => x.id === recordId ? { ...x, statusPedido: "Entregue para o pagamento" } : x));
+
+    if (newStatus === "assinatura") {
+      await supabase.from("pedidos").update({ status_pedido: "Contrato em assinatura" }).eq("id", recordId);
+      setRecords(r => r.map(x => x.id === recordId ? { ...x, statusPedido: "Contrato em assinatura" } : x));
+    }
+    if (newStatus === "aprovado") {
+      await supabase.from("pedidos").update({ status_pedido: "Entregue para o pagamento" }).eq("id", recordId);
+      setRecords(r => r.map(x => x.id === recordId ? { ...x, statusPedido: "Entregue para o pagamento" } : x));
+    }
+  };
+
+  // ── Deletar pedido ──
+  const handleDelete = async (id) => {
+    await supabase.from("contratos").delete().eq("record_id", id);
+    await supabase.from("pedidos").delete().eq("id", id);
+    setRecords(r => r.filter(x => x.id !== id));
+    setContracts(prev => { const c = { ...prev }; delete c[id]; return c; });
+    setDeleteConfirm(null);
   };
 
   const tabStyle = t => ({
@@ -691,8 +822,29 @@ function AppContent({ user, onLogout }) {
     const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff" + rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n")], { type: "text/csv;charset=utf-8" })); a.download = "gestao_muda_cana.csv"; a.click();
   };
 
+  if (loading) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Trebuchet MS',sans-serif" }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🌿</div>
+          <div style={{ fontSize: 18, fontWeight: 700, color: "#166534" }}>Carregando dados...</div>
+          <div style={{ fontSize: 13, color: "#6b7280", marginTop: 6 }}>Conectando ao Supabase</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ minHeight: "100vh", background: "#f0fdf4", fontFamily: "'Trebuchet MS','Gill Sans',sans-serif" }}>
+
+      {/* Erro flutuante */}
+      {errorMsg && (
+        <div style={{ position: "fixed", top: 16, right: 16, background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 12, padding: "12px 18px", zIndex: 9999, fontSize: 13, color: "#dc2626", fontWeight: 600, boxShadow: "0 4px 20px rgba(0,0,0,0.1)", maxWidth: 380 }}>
+          ⚠️ {errorMsg}
+          <button onClick={() => setErrorMsg("")} style={{ marginLeft: 12, background: "none", border: "none", cursor: "pointer", color: "#dc2626", fontWeight: 900 }}>✕</button>
+        </div>
+      )}
+
       {/* HEADER */}
       <div style={{ background: "linear-gradient(135deg,#14532d 0%,#166534 60%,#15803d 100%)", padding: "0 28px", boxShadow: "0 4px 20px rgba(0,0,0,0.15)" }}>
         <div style={{ maxWidth: 1440, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "15px 0", flexWrap: "wrap" }}>
@@ -738,7 +890,6 @@ function AppContent({ user, onLogout }) {
               <KpiCard label="Contratos" value={kpis.contratos} sub={`${kpis.validacao} em validação`} color="#d97706" />
             </div>
 
-            {/* Kanban de status */}
             <div style={{ background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 2px 12px rgba(0,0,0,0.06)", marginBottom: 20 }}>
               <h3 style={{ margin: "0 0 16px", fontSize: 16, fontWeight: 800, color: "#111827" }}>Pedidos por Status</h3>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -746,16 +897,12 @@ function AppContent({ user, onLogout }) {
                   const count = records.filter(r => r.statusPedido === s).length;
                   const st = STATUS_COLORS_PEDIDO[s];
                   return (
-                    <div key={s} onClick={() => { setTab("pedidos"); setFilterStatus(s); }} style={{ background: st.bg, borderRadius: 12, padding: "12px 16px", minWidth: 110, textAlign: "center", border: `1.5px solid ${st.dot}33`, cursor: "pointer", transition: "transform 0.15s" }}>
+                    <div key={s} onClick={() => { setTab("pedidos"); setFilterStatus(s); }} style={{ background: st.bg, borderRadius: 12, padding: "12px 16px", minWidth: 110, textAlign: "center", border: `1.5px solid ${st.dot}33`, cursor: "pointer" }}>
                       <div style={{ fontSize: 26, fontWeight: 900, color: st.text, fontFamily: "Georgia,serif" }}>{count}</div>
                       <div style={{ fontSize: 10, fontWeight: 700, color: st.text, marginTop: 4, lineHeight: 1.4 }}>{s}</div>
                     </div>
                   );
                 })}
-                <div style={{ background: "#f3f4f6", borderRadius: 12, padding: "12px 16px", minWidth: 110, textAlign: "center" }}>
-                  <div style={{ fontSize: 26, fontWeight: 900, color: "#9ca3af", fontFamily: "Georgia,serif" }}>{records.filter(r => !r.statusPedido).length}</div>
-                  <div style={{ fontSize: 10, fontWeight: 700, color: "#9ca3af", marginTop: 4 }}>Sem status</div>
-                </div>
               </div>
             </div>
 
@@ -805,7 +952,6 @@ function AppContent({ user, onLogout }) {
               </select>
               <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
                 <button onClick={exportCSV} style={btnSecondary}>⬇ CSV</button>
-
               </div>
             </div>
             <div style={{ background: "#fff", borderRadius: 14, boxShadow: "0 2px 12px rgba(0,0,0,0.06)", overflow: "hidden" }}>
@@ -922,7 +1068,6 @@ function AppContent({ user, onLogout }) {
               </div>
             ) : (
               <div style={{ display: "grid", gap: 14 }}>
-                {/* Pipeline summary */}
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                   {[["validacao","⏳ Em Validação","#ede9fe","#6d28d9"],["assinatura","✍️ Em Assinatura","#dbeafe","#1e3a8a"],["aprovado","✅ Aprovados","#d1fae5","#065f46"]].map(([s,l,bg,color]) => (
                     <div key={s} style={{ background: bg, borderRadius: 12, padding: "12px 20px", fontSize: 13, fontWeight: 700, color }}>
@@ -958,7 +1103,6 @@ function AppContent({ user, onLogout }) {
                           )}
                         </div>
                       </div>
-                      {/* Prévia do contrato */}
                       <div style={{ padding: "0 22px 16px" }}>
                         <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 10, padding: "10px 14px", maxHeight: 90, overflow: "hidden", position: "relative" }}>
                           <pre style={{ margin: 0, fontSize: 11, color: "#9ca3af", fontFamily: "'Courier New',monospace", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>{c.content?.substring(0, 300)}...</pre>
@@ -983,7 +1127,7 @@ function AppContent({ user, onLogout }) {
             <p style={{ color: "#6b7280", margin: "0 0 22px", fontSize: 14 }}>Esta ação não pode ser desfeita.</p>
             <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
               <button onClick={() => setDeleteConfirm(null)} style={btnSecondary}>Cancelar</button>
-              <button onClick={() => { setRecords(r => r.filter(x => x.id !== deleteConfirm)); setDeleteConfirm(null); }} style={{ ...btnPrimary, background: "linear-gradient(135deg,#dc2626,#b91c1c)", boxShadow: "0 4px 12px rgba(220,38,38,0.3)" }}>Excluir</button>
+              <button onClick={() => handleDelete(deleteConfirm)} style={{ ...btnPrimary, background: "linear-gradient(135deg,#dc2626,#b91c1c)", boxShadow: "0 4px 12px rgba(220,38,38,0.3)" }}>Excluir</button>
             </div>
           </div>
         </div>
