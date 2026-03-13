@@ -398,7 +398,6 @@ function PedidoModal({ open, onClose, onSave, initial }) {
             </select>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: 14 }}>
-            <FormField label="Número do Pedido" fieldKey="pedido" type="text"  form={form} set={set} />
             <FormField label="Data da Proposta" fieldKey="proposta" type="date"  form={form} set={set} />
             <FormField label="Financeiro" fieldKey="financeiro"  form={form} set={set} />
             <FormField label="Comprador" fieldKey="comprador"  form={form} set={set} />
